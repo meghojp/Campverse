@@ -1,7 +1,20 @@
 <% layout('layouts/boilerplate')%>
+<style>
+body {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("https://images.unsplash.com/photo-1507667522877-ad03f0c7b0e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8NXwxNTI3OTY4fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+}
+.card{
+        background-color: rgba(219, 245, 229, 0.685);
+}
+</style>
 <div class="row">
-    <h1 class="text-center">Edit Campground</h1>
     <div class="col-md-6 offset-md-3">
+        <div class="card shadow p-3 mb-3">
+        <h1 class="text-center card-title">Edit Campground</h1>
         <form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST" novalidate class="validated-form"
             enctype="multipart/form-data">
             <div class="mb-3">
@@ -50,21 +63,20 @@
                     </label>
                 </div>
             </div>
+            <% campground.images.forEach(function(img, i) {%> 
             <div class="mb-3">
-                <% campground.images.forEach(function(img, i) {  %>
-
-                <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="">
+                <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="">
                 <div class="form-check-inline">
                     <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+                    <label for="image-<%=i%>">Delete?</label>
                 </div>
-                <label for="image-<%=i%>">Delete?</label>
-                <% })%>
             </div>
+            <% })%>
             <div class="mb-3">
-                <button class="btn btn-info">Update Campground</button>
+                <button class="btn btn-info btn-block">Update Campground</button>
             </div>
         </form>
-        <a href="/campgrounds/<%= campground._id%>">Back To Campground</a>
-
+            <a href="/campgrounds/<%= campground._id%>" class="btn btn-secondary" role="button">Back To Campground</a>
+        </div>
     </div>
 </div>

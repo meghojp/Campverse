@@ -12,6 +12,7 @@ const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require('./models/user');
 const mongoSanitize = require('express-mongo-sanitize');
 const MongoDBStore = require("connect-mongo");
@@ -46,7 +47,8 @@ const secret = process.env.SECRET || 'kxO7V2MStAtRk2hZqMjsmLZvh4fSqe46';
 
 const sessionConfig = {
     store: MongoDBStore.create({
-            mongoUrl: 'mongodb://localhost/test-app',
+            mongoUrl: dbUrl,
+            secret,
             touchAfter: 24 * 3600 // time period in seconds
             }),
     name: 'session',
@@ -69,11 +71,42 @@ app.use(passport.session());
 
 passport.use(new LocalStrategy(User.authenticate()));
 
+passport.use(
+	new GoogleStrategy(
+		{
+			clientID: process.env.CLIENT_ID,
+			clientSecret: process.env.CLIENT_SECRET,
+			callbackURL: process.env.CALLBACK_URL,
+            passReqToCallback: true
+		},
+		async function (req, accessToken, refreshToken, info, done) {
+			const { email, sub } = info._json;
+
+			try {
+				const user = await User.findOne({ email });
+
+				if (user) {
+                    req.flash('success', 'Welcome back!');
+            
+                } else {
+					user = new User({ email, googleID: sub });
+                    await user.save();
+                    req.flash('success', 'Welcome to Campverse!');
+               
+				}
+              done(null,user);  
+			} catch (e) {
+				console.log(e);
+			}
+		}
+	)
+);
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-    if (!['/login', '/register', '/'].includes(req.originalUrl)) {
+    if (!['/login', '/register','/'].includes(req.originalUrl)) {
         req.session.returnTo = req.originalUrl;
     }
     res.locals.currentUser = req.user;

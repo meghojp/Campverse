@@ -38,12 +38,12 @@ const seedDB = async () => {
             },
             images: [
                 {
-                    url: 'https://res.cloudinary.com/domwuvzom/image/upload/v1644230441/campverse/camping-places-ind_huztue.jpg',
-                    filename: 'campverse/camping-places-ind_huztue'
+                    url: 'https://res.cloudinary.com/domwuvzom/image/upload/v1644413381/campverse/camping-places-ind_cwnvg0.jpg',
+                    filename: 'campverse/camping-places-ind_cwnvg0'
                 },
                 {
-                    url: 'https://res.cloudinary.com/domwuvzom/image/upload/v1644230427/campverse/best-camping-sites-in--around-dharamshala-header_znihzg.jpg',
-                    filename: 'campverse/best-camping-sites-in--around-dharamshala-header_znihzg'
+                    url: 'https://res.cloudinary.com/domwuvzom/image/upload/v1644413381/campverse/best-camping-sites-in--around-dharamshala-header_jcesei.jpg',
+                    filename: 'campverse/best-camping-sites-in--around-dharamshala-header_jcesei'
                 }
             ]
         })
