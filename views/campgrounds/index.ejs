@@ -1,8 +1,16 @@
 <% layout('layouts/boilerplate')%>
+<style>
+    body {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://images.unsplash.com/photo-1514477917009-389c76a86b68?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHNreXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+</style>
 <div id="cluster-map"></div>
 <div class="container">
 <h1>All Campgrounds</h1>
-
     <% for (let campground of campgrounds){%>
     <div class="card mb-3">
         <div class="row">
@@ -27,7 +35,7 @@
             </div>
         </div>
     </div>
-    <% }%>
+    <% }%>    
 </div>
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';

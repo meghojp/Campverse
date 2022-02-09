@@ -6,8 +6,22 @@ const { cloudinary } = require("../cloudinary");
 
 
 module.exports.index = async (req, res) => {
-    const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', { campgrounds })
+    let campgrounds = await Campground.find({});
+    if(req.query.search){
+        const search = req.query.search;
+        campgrounds = campgrounds.filter((campground) => {
+            let camp_title=campground.title.toLowerCase();
+            let search_val=search.toLowerCase();
+            return camp_title.includes(search_val);
+        })
+    }
+    if(campgrounds.length){ 
+    res.render('campgrounds/index', { campgrounds });
+    }
+    else{
+        req.flash('error', 'Cannot find any suitable campground!');
+        return res.redirect('/campgrounds')
+    }
 }
 
 module.exports.renderNewForm = (req, res) => {
