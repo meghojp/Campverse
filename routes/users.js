@@ -35,7 +35,7 @@ router.get(
     failureRedirect: '/login',
   }),
   (req, res) => {
-    const redirectUrl = '/campgrounds'
+    const redirectUrl = '/'
     res.redirect(redirectUrl)
   }
 )
