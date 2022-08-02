@@ -75,21 +75,18 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: process.env.CALLBACK_URL,
+      callbackURL: process.env.CALLBACK_URL + '/auth/google/callback',
       passReqToCallback: true,
     },
     async function (req, accessToken, refreshToken, info, done) {
       const { email, sub } = info._json
-      console.log(info._json)
       try {
         let user = await User.findOne({ email })
 
         if (user) {
           req.flash('success', 'Welcome back!')
         } else {
-          console.log('hello')
           user = new User({ email, googleID: sub })
-          console.log('hello2')
           await user.save()
           req.flash('success', 'Welcome to Campverse!')
         }
